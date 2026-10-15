@@ -1,0 +1,6 @@
+/dist/
+/status.json
+/visible.txt
+/error.log
+*.exe
+*.zip
