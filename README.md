@@ -1,4 +1,55 @@
-# Windows Wattage Widget
+# Wattage Widget for Windows and Ubuntu
+
+The Windows version is described below. A native **Ubuntu/Kubuntu version** is
+also available in [`ubuntu/`](ubuntu/), using Python 3 and Qt 6. It reads Linux's
+battery sensors directly and works on KDE Plasma Wayland without Wine.
+
+## Ubuntu / Kubuntu installation
+
+```bash
+sudo apt install python3-pyqt6
+git clone https://github.com/chevydan6/windows-wattage-widget.git
+cd windows-wattage-widget
+/usr/bin/python3 ubuntu/install.py
+```
+
+Run the installer as your desktop user, **without sudo**. It installs under your
+home directory, adds an application-menu entry, starts the widget, and enables
+automatic startup at login. On KDE it adds a window rule for initial upper-right
+placement and keeping the display above other windows, preserving existing rules.
+The widget uses a green lightning tray icon when shown and red when hidden. Click
+to toggle it, drag the display to move it, or right-click for placement and exit.
+Readings refresh every two seconds; your visibility preference is remembered.
+
+The sensor backend reads `/sys/class/power_supply`. It shows battery discharge or
+charging watts, with a current-times-voltage fallback where needed. When plugged
+in without charging, it shows **AC POWER / Draw unavailable**. It does not claim to
+measure wall power or total laptop consumption while charging, send telemetry,
+or require root. A system tray is required for hide/show controls; native Wayland
+placement has been tested on KDE Plasma. Other desktops may place the window
+differently or require a tray extension.
+
+To check the sensor without opening a window:
+
+```bash
+~/.local/bin/wattage-widget --check
+```
+
+Run the installer again to update from a newer checkout. Optional flags are
+`--no-autostart`, `--no-start`, and `--no-kwin-rule`. To uninstall:
+
+```bash
+/usr/bin/python3 ubuntu/install.py --uninstall
+```
+
+This stops the widget and removes its installed files, login entry, and KDE rule.
+Your saved visibility preference is kept. Sensor checks can be run with:
+
+```bash
+/usr/bin/python3 -m unittest discover -s ubuntu/tests -v
+```
+
+## Windows version
 
 A small battery-power display for Windows, with a system-tray lightning icon:
 **green means the display is on; red means it is hidden**. Click the icon to
